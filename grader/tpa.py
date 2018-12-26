@@ -1,5 +1,4 @@
 from flask import g
-import scale
 import pymysql
 
 
