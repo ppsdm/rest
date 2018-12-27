@@ -1,5 +1,5 @@
 from flask import g
-import scale
+import grader.scale
 
 def grader(itemResult):
     if 'apm_total' not in g:
