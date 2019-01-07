@@ -1,10 +1,10 @@
-import grader.apm as apm
-import grader.disc as disc
-import grader.cfit as cfit
-import grader.papi as papi
-import grader.adkudag4 as adkudag4
-import grader.gatb4 as gatb4, grader.tese as tese, grader.tkdinfo as tkdinfo, grader.tkdanalogiverbal as tkdanalogiverbal, grader.tkdidiot as tkdidiot, grader.tpa as tpa
-import grader.compre as compre
+import apm as apm
+import disc as disc
+import cfit as cfit
+import papi as papi
+import adkudag4 as adkudag4
+import gatb4 as gatb4, tese as tese, tkdinfo as tkdinfo, tkdanalogiverbal as tkdanalogiverbal, tkdidiot as tkdidiot, tpa as tpa
+import compre as compre
 import os.path
 import requests
 import xml.etree.ElementTree as ET
@@ -63,7 +63,8 @@ def assessmentResultParser(result) :
             itemGrade = eval(mod_name).grader(itemResult)
             scores = itemGrade["scores"]
             answers = itemGrade["answers"]
-            testItems[identifier] = itemGrade["items"]
+            if "items" in itemGrade:
+             testItems[identifier] = itemGrade["items"]
             #testItems[identifier]["attributes"] = itemGrade["attributes"]
             #print("success")
             items[mod_name] = {

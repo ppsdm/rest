@@ -1,5 +1,5 @@
 from flask import g
-import grader.scale
+import scale
 import pymysql
 
 

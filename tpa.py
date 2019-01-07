@@ -25,6 +25,9 @@ def grader(itemResult):
     if 'subtest_score' not in g:
         g.subtest_score = {}
 
+    if 'reset_object' not in g:
+        g.reset_object = 0
+    
     if g.reset_object == 1:
         g.tpa_correct = 0
         g.tpa_incorrect = 0
@@ -85,6 +88,6 @@ def grader(itemResult):
     data["answers"]["correct"] = g.tpa_correct
     data["answers"]["incorrect"] = g.tpa_incorrect
     data["answers"]["empty"] = g.tpa_empty
-    data["items"] = g.subtest_score
-    #print("exiting TPA module")
+    data["scores"] = g.subtest_score
+    
     return data
