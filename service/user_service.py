@@ -1,4 +1,7 @@
-import pymysql, logging
+import pymysql, logging, os
+from dotenv import load_dotenv
+""" load dotenv."""
+load_dotenv()
 
 class UserService(object):
   """User service class."""
@@ -12,7 +15,7 @@ class UserService(object):
     :param int user_id id of user profile to fetch
     :return dict user profile dict
     """
-    conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='chamilo_ppsdm_db')
+    conn = pymysql.connect(host=os.getenv('DB_HOST'), port=int(os.getenv('DB_PORT')), user=os.getenv('DB_USER'), passwd=os.getenv('DB_PASSWORD'), db='chamilo_ppsdm_db')
     cur = conn.cursor(pymysql.cursors.DictCursor)
     logging.info('Querying SQL')
     # get some user fields + all associated extra_fields + value
