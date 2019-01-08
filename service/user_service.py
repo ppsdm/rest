@@ -38,7 +38,7 @@ class UserService(object):
             data.update({'phone': row['phone']})
             data.update({'picture_uri': row['picture_uri']})
             data.update({'language': row['language']})
-        extra_fields.append({row['variable']: row['value'], 'display_text': row['display_text']})
+        extra_fields.append({row['variable']: {'value': row['value'], 'display_text': row['display_text']}})
         data.update({'extra_fields': extra_fields})
         i += 1
     cur.close()
