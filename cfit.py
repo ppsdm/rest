@@ -2,7 +2,7 @@ from flask import g
 import scale
 import pymysql
 
-def grader(itemResult):
+def grader(itemResult,totalQ):
     print('entering CFIT module')
 
     if 'cfit_total' not in g:
@@ -47,7 +47,7 @@ def grader(itemResult):
                     itemGrade["candidate_response"] = response
 
 
-    g.cfit_incorrect = 50 - g.cfit_correct - g.cfit_empty
+    g.cfit_incorrect = totalQ - g.cfit_correct - g.cfit_empty
     data = {}
     data["type"] = 'cfit'
     data["scores"] = {}

@@ -2,7 +2,7 @@ from flask import g
 import scale
 import pymysql
 
-def grader(itemResult):
+def grader(itemResult,totalQ):
     print('entering ComPre module')
 
     if 'compre_total' not in g:
@@ -49,7 +49,7 @@ def grader(itemResult):
 
 
 
-    g.compre_incorrect = 30 - g.compre_correct - g.compre_empty
+    g.compre_incorrect = totalQ - g.compre_correct - g.compre_empty
     data = {}
     data["type"] = 'compre'
     data["scores"] = {}

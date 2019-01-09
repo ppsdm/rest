@@ -2,7 +2,7 @@ from flask import g
 import scale
 import pymysql
 
-def grader(itemResult):
+def grader(itemResult,totalQ):
     print('entering GATB4 module')
 
     if 'gatb4_total' not in g:
@@ -48,7 +48,7 @@ def grader(itemResult):
                     itemGrade["candidate_response"] = response
 
 
-    g.gatb4_incorrect = 25 - g.gatb4_correct - g.gatb4_empty
+    g.gatb4_incorrect = totalQ - g.gatb4_correct - g.gatb4_empty
     data = {}
     data["type"] = 'gatb4'
     data["scores"] = {}

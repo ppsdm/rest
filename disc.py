@@ -7,7 +7,7 @@ import pymysql
 #reno = scale.scale('pcas-2-d', '7')
 #print(reno)
 
-def matching_graphs(disc_score):
+def matching_graphs(disc_score,totalQ):
     #use with disc3 values
     _di = ''
     _ds = ''

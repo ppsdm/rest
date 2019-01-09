@@ -13,6 +13,7 @@ from flask_restplus import Resource, Api
 from config import settings
 import pymysql
 from flask import g
+import json
 
 app = Flask(__name__)
 api = Api(app)
@@ -26,6 +27,35 @@ BASE_URI_MYSQL = 'http://cat.ppsdm.com/ppsdm_cat.rdf#'
 GET_LATEST_URI = 'taoResultServer/QtiRestResults/getLatest?'
 GET_RESULT_URI = 'taoResultServer/QtiRestResults/getQtiResultXml?'
 
+def getToolId(resultId) :
+    conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='catdb')
+    retval = None
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM lti_result_identifiers WHERE delivery_execution_id = %s LIMIT 1", (BASE_URI_MYSQL + resultId))
+
+    for row in cur:
+        retval = json.loads(row[1])
+        #print(retval["plugin_ims_lti_tool"])
+
+    cur.close()
+    conn.close()
+
+    return retval["plugin_ims_lti_tool"]
+
+def testconfig(toolId) :
+    conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='ppsdmdb')
+    retval = {}
+    #print(scalename)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM subtest_config WHERE lti_tool_id = %s", (toolId))
+    #print(cur.description)
+    for row in cur:
+        retval[row[1]] = row[3]
+        #print(row[2])
+    #retval = cur.fetchone()
+    cur.close()
+    conn.close()
+    return retval
 ##
 ## @brief Parse given assessment result
 ##
@@ -33,7 +63,7 @@ GET_RESULT_URI = 'taoResultServer/QtiRestResults/getQtiResultXml?'
 ##
 ## @return Object with calculated scores, answers, and testItems
 ##
-def assessmentResultParser(result) :
+def assessmentResultParser(result,toolId) :
     # Create a new object
     scores = {}
     answers = {}
@@ -41,7 +71,8 @@ def assessmentResultParser(result) :
     errors = ""
 
     items = {}
-
+    totalQ = {}
+    totalQ = testconfig(toolId)
     # Parse assessment result
     assessmentResult = ET.ElementTree(ET.fromstring(result.text))
 
@@ -55,12 +86,14 @@ def assessmentResultParser(result) :
         testItems[identifier] = {}
         #print('isinde item result', identifier)
         mod_name = identifier.split('_')[0].lower()
-
         
+        
+        if mod_name not in totalQ:
+            totalQ[mod_name] = 0
         #testItems["mod_name"] = mod_name
 
         try:
-            itemGrade = eval(mod_name).grader(itemResult)
+            itemGrade = eval(mod_name).grader(itemResult,totalQ[mod_name])
             scores = itemGrade["scores"]
             answers = itemGrade["answers"]
             if "items" in itemGrade:
@@ -133,11 +166,13 @@ class Result(Resource):
         #data["type"] = "testResult"
         data["id"] = delivery_id
         data["result_id"] = result_id
+        tool_id = getToolId(result_id)
+
         # Retrieve assessment result
         uri = SERVER_URL + GET_RESULT_URI + 'result=' + BASE_URI + result_id + '&delivery=' + BASE_URI + delivery_id
         r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 'admin123'))
         # Update data from parsed assessment result
-        data.update(assessmentResultParser(r))
+        data.update(assessmentResultParser(r,tool_id))
 
         # Serve assessment result
         return jsonify(data = data)

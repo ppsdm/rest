@@ -5,7 +5,7 @@ import pymysql
 
 
 
-def grader(itemResult):
+def grader(itemResult,totalQ):
     validity = True
     validity_message = ""
     print('inside PAPI module')

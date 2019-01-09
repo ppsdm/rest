@@ -2,7 +2,7 @@ from flask import g
 import scale
 import pymysql
 
-def grader(itemResult):
+def grader(itemResult,totalQ):
     print('entering tkdanalogiverbal module')
 
     if 'tkdanalogiverbal_total' not in g:
@@ -50,7 +50,7 @@ def grader(itemResult):
 
 
 
-    g.tkdanalogiverbal_incorrect = 40 - g.tkdanalogiverbal_correct - g.tkdanalogiverbal_empty
+    g.tkdanalogiverbal_incorrect = totalQ - g.tkdanalogiverbal_correct - g.tkdanalogiverbal_empty
     data = {}
     data["type"] = 'tkdanalogiverbal'
     data["scores"] = {}

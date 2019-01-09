@@ -2,7 +2,7 @@ from flask import g
 import scale
 import pymysql
 
-def grader(itemResult):
+def grader(itemResult,totalQ):
     print('entering tese module')
 
     if 'tese_total' not in g:
@@ -48,7 +48,7 @@ def grader(itemResult):
                     itemGrade["candidate_response"] = response
 
 
-    g.tese_incorrect = 20 - g.tese_correct - g.tese_empty
+    g.tese_incorrect = totalQ - g.tese_correct - g.tese_empty
     data = {}
     data["type"] = 'tese'
     data["scores"] = {}

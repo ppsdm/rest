@@ -3,7 +3,7 @@ import pymysql
 
 
 def scale(scalename, value):
-    conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='atsdb')
+    conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='ppsdmdb')
     retval = None
     if not(value is None):
         retval = value
