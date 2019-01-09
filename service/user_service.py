@@ -1,5 +1,6 @@
 import pymysql, logging, os
 from dotenv import load_dotenv
+from constants.response_model.user import EXTRA_FIELD
 """ load dotenv."""
 load_dotenv()
 
@@ -8,6 +9,7 @@ class UserService(object):
 
   def __init__(self):
     """UserService constructor."""
+    self.extra_field = EXTRA_FIELD
   
   def getUserById(self, user_id):
     """
@@ -25,7 +27,6 @@ class UserService(object):
           ON user.id = efv.item_id INNER JOIN extra_field AS ef ON ef.id = efv.field_id \
           WHERE user.id = %s", user_id)
     i = 0
-    extra_fields = {}
     data = {}
     for row in cur:
         if (i == 0):
@@ -38,8 +39,8 @@ class UserService(object):
             data.update({'phone': row['phone']})
             data.update({'picture_uri': row['picture_uri']})
             data.update({'language': row['language']})
-        extra_fields.update({row['variable']: {'value': row['value'], 'display_text': row['display_text']}})
-        data.update({'extra_fields': extra_fields})
+        self.extra_field.update({row['variable']: {'value': row['value'], 'display_text': row['display_text']}})
+        data.update({'extra_fields': self.extra_field})
         i += 1
     cur.close()
     conn.close()
