@@ -21,7 +21,7 @@ class UserService(object):
     cur = conn.cursor(pymysql.cursors.DictCursor)
     logging.info('Querying SQL')
     # get some user fields + all associated extra_fields + value
-    cur.execute("SELECT user.id, user.firstname, user.lastname, user.username, user.email, user.official_code, \
+    cur.execute("SELECT user.id, user.firstname, user.lastname, user.address, user.username, user.email, user.official_code, \
           user.phone, user.picture_uri, user.language, efv.value, ef.variable, ef.display_text \
         FROM user INNER JOIN extra_field_values AS efv \
           ON user.id = efv.item_id INNER JOIN extra_field AS ef ON ef.id = efv.field_id \
@@ -33,6 +33,7 @@ class UserService(object):
             data.update({'id': row['id']})
             data.update({'firstname': row['firstname']})
             data.update({'lastname': row['lastname']})
+            data.update({'address': row['address']})
             data.update({'username': row['username']})
             data.update({'official_code': row['official_code']})
             data.update({'email': row['email']})
