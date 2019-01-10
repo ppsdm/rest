@@ -14,6 +14,8 @@ from config import settings
 import pymysql
 from flask import g
 import json
+import logging
+from controller import user_controller
 
 app = Flask(__name__)
 api = Api(app)
@@ -212,6 +214,14 @@ class Summary(Resource):
         conn.close()
 
         return jsonify(data = summary_data)
+
+@api.route('/getUserProfile/<string:user_id>')
+class UserProfile(Resource):
+    def get(self, user_id):
+        # user profile data
+        logging.info('UserProfile.get(%s)', user_id)
+        user = user_controller.getUser(user_id)
+        return jsonify(data = user)
 
 if __name__ == '__main__':
     app.config.from_object(settings)
