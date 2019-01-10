@@ -34,7 +34,7 @@ def getResultId(user_id, tool_id) :
     retval = None
     cur = conn.cursor()
     #{"user":"PPSDM-Online-PPSDM-7","plugin_ims_lti_tool":"8"}
-    query_string = '{"user":"PPSDM-Online-PPSDM-'+user_id+'","plugin_ims_lti_tool":"'+tool_id+'"}'
+    query_string = '{"user":"PPSDM-Online-PPSDM-'+str(user_id)+'","plugin_ims_lti_tool":"'+str(tool_id)+'"}'
     cur.execute("SELECT * FROM lti_result_identifiers WHERE result_id = %s LIMIT 1", (query_string))
 
     for row in cur:
@@ -50,10 +50,25 @@ def getDeliveryId(result_id) :
     retval = None
     cur = conn.cursor()
 
-    cur.execute("SELECT * FROM results_storage WHERE result_id = %s LIMIT 1", (result_id))
+    cur.execute("SELECT * FROM results_storage WHERE result_id = %s LIMIT 1", (str(result_id)))
 
     for row in cur:
         retval = row[2]
+
+    cur.close()
+    conn.close()
+
+    return retval
+
+def getLtiTools(c_id) :
+    conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='chamilo_ppsdm_db')
+    retval = None
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM plugin_ims_lti_tool WHERE custom_params ='MAIN' AND c_id = %s LIMIT 1", (c_id))
+
+    for row in cur:
+        retval = row[0]
 
     cur.close()
     conn.close()
@@ -64,7 +79,7 @@ def getToolId(resultId) :
     conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='catdb')
     retval = None
     cur = conn.cursor()
-    cur.execute("SELECT * FROM lti_result_identifiers WHERE delivery_execution_id = %s LIMIT 1", (BASE_URI_MYSQL + resultId))
+    cur.execute("SELECT * FROM lti_result_identifiers WHERE delivery_execution_id = %s LIMIT 1", (BASE_URI_MYSQL + str(resultId)))
 
     for row in cur:
         retval = json.loads(row[1])
@@ -80,7 +95,7 @@ def testconfig(toolId) :
     retval = {}
     #print(scalename)
     cur = conn.cursor()
-    cur.execute("SELECT * FROM subtest_config WHERE lti_tool_id = %s", (toolId))
+    cur.execute("SELECT * FROM subtest_config WHERE lti_tool_id = %s", (str(toolId)))
     #print(cur.description)
     for row in cur:
         retval[row[1]] = row[3]
@@ -210,14 +225,14 @@ class Resultfromuri(Resource):
         # Serve assessment result
         return jsonify(data = data)
 
-@api.route('/getresult/<string:user_id>/<string:tool_id>')
+@api.route('/getresult/<string:user_id>/<string:c_id>')
 class Result(Resource):
-    def get(self, user_id, tool_id):
+    def get(self, user_id, c_id):
         # Assessment information
   
         data = {}
         #data["type"] = "testResult"
-
+        tool_id = getLtiTools(c_id)
         result_uri = getResultId(user_id, tool_id)
         delivery_uri = getDeliveryId(result_uri)
 
