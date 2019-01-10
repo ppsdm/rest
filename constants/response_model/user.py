@@ -1,6 +1,9 @@
 EXTRA_FIELD = {
   'linkedin_url': None,
       'skype': None,
+      'birthdate': None,
+      'birthplace': None,
+      'gender': None,
       'facebook': None,
       'instagram': None,
       'twitter': None,
