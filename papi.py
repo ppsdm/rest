@@ -35,8 +35,9 @@ def grader(itemResult,totalQ):
         'p' : 0
         }
 
-
-    papi_score_scaled = {
+    if 'papi_score_scaled' not in g:
+        #print("create g.papi_score")
+        g.papi_score_scaled = {
         'e' : 0,
         'n' : 0,
         'a' : 0,
@@ -57,7 +58,9 @@ def grader(itemResult,totalQ):
         'v' : 0,
         'f' : 0,
         'p' : 0
-    }
+        }
+
+
 
 
     if 'apm_total' not in g:
@@ -103,12 +106,13 @@ def grader(itemResult,totalQ):
                         #print('alpja : ', papi_alpha[0])
                         g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] + 1
                         if papi_alpha[0].lower() == 'k':
-                            papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik_k', g.papi_score[papi_alpha[0].lower()])
+                            g.papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik_k', g.papi_score[papi_alpha[0].lower()])
                         elif papi_alpha[0].lower() == 'z':
-                            papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik_z', g.papi_score[papi_alpha[0].lower()])     
+                            g.papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik_z', g.papi_score[papi_alpha[0].lower()])     
                         else:
-                            papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik', g.papi_score[papi_alpha[0].lower()])
-                        #print('papi_score : ' , papi_score[papi_alpha[0].lower()])
+                            g.papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik', g.papi_score[papi_alpha[0].lower()])
+                            #print('papi_score : ' , g.papi_score[papi_alpha[0].lower()])
+                            #print('papi_score_scaled : ' , papi_score_scaled[papi_alpha[0].lower()])
                     else :
                         g.apm_empty += 1
                         validity = False
@@ -121,7 +125,7 @@ def grader(itemResult,totalQ):
     data["type"] = 'papi'
     data["scores"] = {}
     data["scores"]["raw"] = g.papi_score
-    data["scores"]["scaled"] = papi_score_scaled
+    data["scores"]["scaled"] = g.papi_score_scaled
     data["scores"]["total"] = g.apm_total
     data["scores"]["max_score"] = g.apm_max_score
     data["scores"]["validity"] = validity
@@ -134,5 +138,5 @@ def grader(itemResult,totalQ):
     print (g.papi_score)
     #g.papi['e'] += 1
     #print (g.papi['e'])
-    print (papi_score_scaled)
+    print (g.papi_score_scaled)
     return data
