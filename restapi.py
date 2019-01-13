@@ -184,6 +184,32 @@ def regulerGrader(dataObject) :
     # Create a new object
     items = dataObject
     items['output'] = {}
+    items['output']['kecepatan'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
+                                    items['apm']['answers']['incorrect'] + 
+                                    items['compre']['answers']['correct'] + 
+                                    items['compre']['answers']['incorrect'] +
+                                    items['tkdinfo']['answers']['correct'] + 
+                                    items['tkdinfo']['answers']['incorrect'] +
+                                    items['tkdidiot']['answers']['correct'] + 
+                                    items['tkdidiot']['answers']['incorrect'] +
+                                    items['tkdanalogiverbal']['answers']['correct'] + 
+                                    items['tkdanalogiverbal']['answers']['incorrect'] +
+                                    items['gatb4']['answers']['correct'] + 
+                                    items['gatb4']['answers']['incorrect'] +
+                                    items['adkudag4']['answers']['correct'] + 
+                                    items['adkudag4']['answers']['incorrect'] +
+                                    items['tese']['answers']['correct'] + 
+                                    items['tese']['answers']['incorrect']) / 246 * 100)
+
+    items['output']['ketelitian'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
+                                    items['compre']['answers']['correct'] + 
+                                    items['tkdinfo']['answers']['correct'] + 
+                                    items['tkdidiot']['answers']['correct'] + 
+                                    items['tkdanalogiverbal']['answers']['correct'] + 
+                                    items['gatb4']['answers']['correct'] + 
+                                    items['adkudag4']['answers']['correct'] + 
+                                    items['tese']['answers']['correct']) / 246 * 100)
+
     items['output']['inteligensi_umum'] = scale.scale('20to6',round((items['apm']['scores']['scale20'] + items['gatb4']['scores']['scale20'] + items['tkdidiot']['scores']['scale20'])/3))
     items['output']['daya_tangkap'] = scale.scale('20to6',round((items['compre']['scores']['scale20'] + items['tkdanalogiverbal']['scores']['scale20'] + items['tese']['scores']['scale20'])/3))
     items['output']['pemecahan_masalah'] = scale.scale('20to6',round((items['apm']['scores']['scale20'] + items['tkdidiot']['scores']['scale20'] + items['gatb4']['scores']['scale20'] + items['tese']['scores']['scale20'])/4))
@@ -198,36 +224,81 @@ def regulerGrader(dataObject) :
     items['output']['daya_ingat'] =  scale.scale('20to6',round(((items['tkdinfo']['scores']['scale20'] * 2)+ items['compre']['scores']['scale20'] + items['adkudag4']['scores']['scale20'])/4))
     items['output']['kemampuan_dan_proses_belajar'] = scale.scale('20to6',round((items['apm']['scores']['scale20'] + items['compre']['scores']['scale20'] + items['tkdinfo']['scores']['scale20'])/3))
 
-    items['output']['kematangan_sosial'] = round((items['papi']['scores']['scale20']['s'] + 
+    items['output']['kematangan_sosial'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['s'] + 
                                             items['papi']['scores']['scale20']['b'] +
                                              items['papi']['scores']['scale20']['o'] +
-                                              items['papi']['scores']['scale20']['e'])/4)
+                                              items['papi']['scores']['scale20']['e'])/4))
 
 
-    items['output']['stabilitas_emosi'] = round((items['papi']['scores']['scale20']['e'])/1)
-    items['output']['penyesuaian_diri'] = round((items['papi']['scores']['scale20']['b'] + 
-                                              items['papi']['scores']['scale20']['z'])/2)
+    items['output']['stabilitas_emosi'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['e'])/1))
+    items['output']['penyesuaian_diri'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['b'] + 
+                                              items['papi']['scores']['scale20']['z'])/2))
 
-    items['output']['pengendalian_diri'] = round((items['papi']['scores']['scale20']['s'] + 
+    items['output']['pengendalian_diri'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['z'] + 
                                             items['papi']['scores']['scale20']['b'] +
-                                             items['papi']['scores']['scale20']['o'] +
-                                              items['papi']['scores']['scale20']['e'])/4)
+                                             items['papi']['scores']['scale20']['k'] +
+                                              items['papi']['scores']['scale20']['e'])/4))
 
-    items['output']['kepercayaan_diri'] = 5
-    items['output']['konsep_diri'] = 5 
-    items['output']['kerjasama'] = 5
-    items['output']['hubungan_interpersonal'] = 5
-    items['output']['sistematika_kerja'] = 5
-    items['output']['fleksibilitas_kerja'] = 5
-    items['output']['tempo_kerja'] = 5 
-    items['output']['ketekunan'] = 5
-    items['output']['ketelitian'] = 5
-    items['output']['daya_tahan_kerja_rutin'] = 5
-    items['output']['daya_tahan_dalam_stress'] = 5
-    items['output']['motivasi_berprestasi'] = 5
-    items['output']['orientasi_pelayanan'] = 5
-    items['output']['komitmen_kerja'] = 5
-    items['output']['inisiatif'] = 5
+    items['output']['kepercayaan_diri'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['z'] + 
+                                             items['papi']['scores']['scale20']['k'] +
+                                              items['papi']['scores']['scale20']['x'])/3))
+    items['output']['penyesuaian_diri'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['v'] + 
+                                              items['papi']['scores']['scale20']['a'])/2))
+
+    items['output']['kerjasama'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['p'] + 
+                                            items['papi']['scores']['scale20']['b'] +
+                                             items['papi']['scores']['scale20']['k'] +
+                                              items['papi']['scores']['scale20']['f'])/4))
+
+
+    items['output']['hubungan_interpersonal'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['x'] + 
+                                            items['papi']['scores']['scale20']['b'] +
+                                             items['papi']['scores']['scale20']['s'] +
+                                              items['papi']['scores']['scale20']['o'])/4))
+
+    items['output']['sistematika_kerja'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['i'] + 
+                                            items['papi']['scores']['scale20']['d'] +
+                                             items['papi']['scores']['scale20']['c'] +
+                                              items['papi']['scores']['scale20']['w'])/4))
+
+    items['output']['fleksibilitas_kerja'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['z'] + 
+                                             items['papi']['scores']['scale20']['i'] +
+                                              items['papi']['scores']['scale20']['w'])/3))
+
+
+    items['output']['tempo_kerja'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['t'] + 
+                                            items['papi']['scores']['scale20']['v'] +
+                                             items['output']['kecepatan'] +
+                                              items['papi']['scores']['scale20']['n'])/4))
+    items['output']['ketekunan'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['d'] + 
+                                            items['adkudag4']['scores']['scale20'] + 
+                                             items['output']['ketelitian'] +
+                                              items['papi']['scores']['scale20']['c'])/4))
+    items['output']['ketelitian'] = scale.scale('20to6',items['output']['ketelitian'])
+    items['output']['daya_tahan_kerja_rutin'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['g'] + 
+                                                       items['papi']['scores']['scale20']['v'] +
+                                                                             items['papi']['scores']['scale20']['z'] +
+                                                                     items['papi']['scores']['scale20']['e'] +
+                                              items['papi']['scores']['scale20']['n'])/5))
+
+    items['output']['daya_tahan_dalam_stress'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['g'] + 
+                                             items['papi']['scores']['scale20']['e'] +
+                                              items['papi']['scores']['scale20']['n'])/3))
+    items['output']['motivasi_berprestasi'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['g'] + 
+                                             (items['papi']['scores']['scale20']['a'] * 3) +
+                                               items['papi']['scores']['scale20']['v'] +
+                                              items['papi']['scores']['scale20']['n'])/6))
+    items['output']['orientasi_pelayanan'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['k'] + 
+                                             items['papi']['scores']['scale20']['f'] +
+                                              items['papi']['scores']['scale20']['n'])/3))
+
+    items['output']['komitmen_kerja'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['g'] + 
+                                              items['papi']['scores']['scale20']['n'])/2))
+
+    items['output']['inisiatif'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['l'] + 
+                                            items['papi']['scores']['scale20']['i'] +
+                                             items['papi']['scores']['scale20']['t'] +
+                                              items['papi']['scores']['scale20']['z'])/4))
     
 
     return items
