@@ -71,7 +71,7 @@ def grader(itemResult,totalQ):
                     itemGrade["candidate_response"] = response
 
 
-    g.tpa_incorrect = 50 - g.tpa_correct - g.tpa_empty
+    g.tpa_incorrect = totalQ - g.tpa_correct - g.tpa_empty
     data = {}
     data["type"] = 'tpa'
     data["scores"] = {}

@@ -47,7 +47,8 @@ def grader(itemResult,totalQ):
     data = {}
     data["type"] = 'apm'
     data["scores"] = {}
-    data["scores"]["scaled"] = scale.scale('apm', g.apm_correct)
+    data["scores"]["scale20"] = scale.scale('apm', g.apm_correct)
+    data["scores"]["scale6"] = scale.scale('20to6', data["scores"]["scale20"])
     #data["scores"]["total"] = g.apm_total
     #data["scores"]["max_score"] = g.apm_max_score
     data["answers"] = {}

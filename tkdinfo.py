@@ -52,7 +52,8 @@ def grader(itemResult,totalQ):
     data = {}
     data["type"] = 'tkdinfo'
     data["scores"] = {}
-    data["scores"]["scaled"] = scale.scale('tkdinfo', g.tkdinfo_correct)
+    data["scores"]["scale20"] = scale.scale('tkdinfo', g.tkdinfo_correct)
+    data["scores"]["scale6"] = scale.scale('20to6', data["scores"]["scale20"])
     #data["scores"]["scale-20"] = scale.scale('cfit-to-20', g.tkdinfo_correct)
     #data["scores"]["total"] = g.apm_total
     #data["scores"]["max_score"] = g.apm_max_score
