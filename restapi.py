@@ -16,6 +16,7 @@ from flask import g
 import json
 import logging
 from controller import user_controller
+import scale as scale
 
 app = Flask(__name__)
 api = Api(app)
@@ -178,6 +179,61 @@ def assessmentResultParser(result,toolId) :
         #"type": mod_name
    # }
 
+
+def regulerGrader(dataObject) :
+    # Create a new object
+    items = dataObject
+    items['output'] = {}
+    items['output']['inteligensi_umum'] = scale.scale('20to6',round((items['apm']['scores']['scale20'] + items['gatb4']['scores']['scale20'] + items['tkdidiot']['scores']['scale20'])/3))
+    items['output']['daya_tangkap'] = scale.scale('20to6',round((items['compre']['scores']['scale20'] + items['tkdanalogiverbal']['scores']['scale20'] + items['tese']['scores']['scale20'])/3))
+    items['output']['pemecahan_masalah'] = scale.scale('20to6',round((items['apm']['scores']['scale20'] + items['tkdidiot']['scores']['scale20'] + items['gatb4']['scores']['scale20'] + items['tese']['scores']['scale20'])/4))
+    items['output']['kemampuan_analisa_sintesa'] = scale.scale('20to6',round(((items['apm']['scores']['scale20'] * 3) + items['tkdidiot']['scores']['scale20'] + items['gatb4']['scores']['scale20'] + items['tese']['scores']['scale20'])/6))
+    items['output']['logika_berpikir'] = scale.scale('20to6',round((items['tkdidiot']['scores']['scale20'] + items['gatb4']['scores']['scale20'] + items['tese']['scores']['scale20'])/3))
+    items['output']['penalaran_verbal']  = scale.scale('20to6',round((items['compre']['scores']['scale20'] + items['tkdanalogiverbal']['scores']['scale20'] + items['tkdidiot']['scores']['scale20'])/3))
+    items['output']['penalaran_numerik'] = scale.scale('20to6',round((items['gatb4']['scores']['scale20'] + items['tese']['scores']['scale20'])/2))
+    items['output']['wawasan_pengetahuan'] = scale.scale('20to6',round((items['compre']['scores']['scale20'] + items['tkdinfo']['scores']['scale20'])/2))
+    items['output']['kemampuan_abstrak'] = scale.scale('20to6',round(((items['apm']['scores']['scale20'] * 2)+ items['tkdidiot']['scores']['scale20'] + items['tese']['scores']['scale20'])/4))
+    items['output']['kemampuan_praktis'] = scale.scale('20to6',round((items['adkudag4']['scores']['scale20'] + items['tese']['scores']['scale20'])/2))
+    items['output']['kemampuan_keteknikan'] = scale.scale('20to6',items['tese']['scores']['scale20'])
+    items['output']['daya_ingat'] =  scale.scale('20to6',round(((items['tkdinfo']['scores']['scale20'] * 2)+ items['compre']['scores']['scale20'] + items['adkudag4']['scores']['scale20'])/4))
+    items['output']['kemampuan_dan_proses_belajar'] = scale.scale('20to6',round((items['apm']['scores']['scale20'] + items['compre']['scores']['scale20'] + items['tkdinfo']['scores']['scale20'])/3))
+
+    items['output']['kematangan_sosial'] = round((items['papi']['scores']['scale20']['s'] + 
+                                            items['papi']['scores']['scale20']['b'] +
+                                             items['papi']['scores']['scale20']['o'] +
+                                              items['papi']['scores']['scale20']['e'])/4)
+
+
+    items['output']['stabilitas_emosi'] = round((items['papi']['scores']['scale20']['e'])/1)
+    items['output']['penyesuaian_diri'] = round((items['papi']['scores']['scale20']['b'] + 
+                                              items['papi']['scores']['scale20']['z'])/2)
+
+    items['output']['pengendalian_diri'] = round((items['papi']['scores']['scale20']['s'] + 
+                                            items['papi']['scores']['scale20']['b'] +
+                                             items['papi']['scores']['scale20']['o'] +
+                                              items['papi']['scores']['scale20']['e'])/4)
+
+    items['output']['kepercayaan_diri'] = 5
+    items['output']['konsep_diri'] = 5 
+    items['output']['kerjasama'] = 5
+    items['output']['hubungan_interpersonal'] = 5
+    items['output']['sistematika_kerja'] = 5
+    items['output']['fleksibilitas_kerja'] = 5
+    items['output']['tempo_kerja'] = 5 
+    items['output']['ketekunan'] = 5
+    items['output']['ketelitian'] = 5
+    items['output']['daya_tahan_kerja_rutin'] = 5
+    items['output']['daya_tahan_dalam_stress'] = 5
+    items['output']['motivasi_berprestasi'] = 5
+    items['output']['orientasi_pelayanan'] = 5
+    items['output']['komitmen_kerja'] = 5
+    items['output']['inisiatif'] = 5
+    
+
+    return items
+
+
+
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico', mimetype='image/vnd.microsoft.icon')
@@ -224,6 +280,31 @@ class Resultfromuri(Resource):
 
         # Serve assessment result
         return jsonify(data = data)
+
+@api.route('/getreguler/<string:user_id>/<string:c_id>')
+class Reguler(Resource):
+    def get(self, user_id, c_id):
+        # Assessment information
+  
+        data = {}
+        #data["type"] = "testResult"
+        tool_id = getLtiTools(c_id)
+        result_uri = getResultId(user_id, tool_id)
+        delivery_uri = getDeliveryId(result_uri)
+
+        result_id = result_uri.replace(BASE_URI_MYSQL, "")
+        delivery_id = delivery_uri.replace(BASE_URI_MYSQL,"")
+
+        # Retrieve assessment result
+        uri = SERVER_URL + GET_RESULT_URI + 'result=' + BASE_URI + result_id + '&delivery=' + BASE_URI + delivery_id
+        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 'admin123'))
+        # Update data from parsed assessment result
+        data.update(assessmentResultParser(r,tool_id))
+        data.update(regulerGrader(data))
+
+        # Serve assessment result
+        return jsonify(data = data)
+
 
 @api.route('/getresult/<string:user_id>/<string:c_id>')
 class Result(Resource):
