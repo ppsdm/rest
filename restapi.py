@@ -294,6 +294,8 @@ def regulerGrader(dataObject) :
 
     items['output']['komitmen_kerja'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['g'] + 
                                               items['papi']['scores']['scale20']['n'])/2))
+    items['output']['konsep_diri'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['a'] + 
+                                              items['papi']['scores']['scale20']['v'])/2))
 
     items['output']['inisiatif'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['l'] + 
                                             items['papi']['scores']['scale20']['i'] +
