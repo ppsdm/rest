@@ -199,7 +199,7 @@ def regulerGrader(dataObject) :
                                     items['adkudag4']['answers']['correct'] + 
                                     items['adkudag4']['answers']['incorrect'] +
                                     items['tese']['answers']['correct'] + 
-                                    items['tese']['answers']['incorrect']) / 246 * 100)
+                                    items['tese']['answers']['incorrect'])  * 100/246)
 
     items['output']['ketelitian20'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
                                     items['compre']['answers']['correct'] + 
@@ -208,7 +208,7 @@ def regulerGrader(dataObject) :
                                     items['tkdanalogiverbal']['answers']['correct'] + 
                                     items['gatb4']['answers']['correct'] + 
                                     items['adkudag4']['answers']['correct'] + 
-                                    items['tese']['answers']['correct']) / 246 * 100)
+                                    items['tese']['answers']['correct']) * 100/246)
 
     items['output']['inteligensi_umum'] = scale.scale('20to6',round((items['apm']['scores']['scale20'] + items['gatb4']['scores']['scale20'] + items['tkdidiot']['scores']['scale20'])/3))
     items['output']['daya_tangkap'] = scale.scale('20to6',round((items['compre']['scores']['scale20'] + items['tkdanalogiverbal']['scores']['scale20'] + items['tese']['scores']['scale20'])/3))
