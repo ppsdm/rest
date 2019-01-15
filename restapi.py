@@ -302,7 +302,24 @@ def regulerGrader(dataObject) :
                                              items['papi']['scores']['scale20']['t'] +
                                               items['papi']['scores']['scale20']['z'])/4))
     
-
+    items['output']['subtest_rs_total'] = items['apm']['answers']['correct'] + 
+                                            items['compre']['answers']['correct'] + 
+                                            items['gatb4']['answers']['correct'] + 
+                                            items['tkdinfo']['answers']['correct'] + 
+                                            items['tkdidiot']['answers']['correct'] + 
+                                            items['tkdanalogiverbal']['answers']['correct'] + 
+                                            items['adkudag4']['answers']['correct'] + 
+                                            items['tese']['answers']['correct']
+    items['output']['subtest_ss_total'] = items['apm']['scores']['scale20'] + 
+                                            items['compre']['scores']['scale20'] + 
+                                            items['gatb4']['scores']['scale20'] + 
+                                            items['tkdinfo']['scores']['scale20'] + 
+                                            items['tkdidiot']['scores']['scale20'] + 
+                                            items['tkdanalogiverbal']['scores']['scale20'] + 
+                                            items['adkudag4']['scores']['scale20'] + 
+                                            items['tese']['scores']['scale20']
+    items['output']['kecepatan_percentage'] = items['output']['kecepatan']
+    items['output']['ketelitian_percentage'] = items['output']['ketelitian']
     return items
 
 
