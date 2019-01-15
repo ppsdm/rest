@@ -125,6 +125,11 @@ def assessmentResultParser(result,toolId) :
     # Parse assessment result
     assessmentResult = ET.ElementTree(ET.fromstring(result.text))
 
+    for testResult in assessmentResult.iterfind('owl:testResult', namespaces):
+        datestamp = testResult.attrib['datestamp']
+        items['datestamp'] = datestamp
+
+
     for itemResult in assessmentResult.iterfind('owl:itemResult', namespaces):
         #testItems.clear()
         answers = {}
@@ -204,7 +209,7 @@ def regulerGrader(dataObject) :
     items['output']['ketelitian20'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
                                     items['compre']['answers']['correct'] + 
                                     items['tkdinfo']['answers']['correct'] + 
-                                    items['tkdidiot']['answers']['correct'] + 
+                                    items['tkdidiot']['answers']['correct'] +   
                                     items['tkdanalogiverbal']['answers']['correct'] + 
                                     items['gatb4']['answers']['correct'] + 
                                     items['adkudag4']['answers']['correct'] + 
