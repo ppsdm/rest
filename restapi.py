@@ -313,8 +313,30 @@ def regulerGrader(dataObject) :
                                             items['tkdanalogiverbal']['scores']['scale20'] + 
                                             items['adkudag4']['scores']['scale20'] + 
                                             items['tese']['scores']['scale20'])
-    items['output']['kecepatan_percentage'] = items['output']['kecepatan']
-    items['output']['ketelitian_percentage'] = items['output']['ketelitian']
+    items['output']['kecepatan_percentage'] = ((items['apm']['answers']['correct'] + 
+                                    items['apm']['answers']['incorrect'] + 
+                                    items['compre']['answers']['correct'] + 
+                                    items['compre']['answers']['incorrect'] +
+                                    items['tkdinfo']['answers']['correct'] + 
+                                    items['tkdinfo']['answers']['incorrect'] +
+                                    items['tkdidiot']['answers']['correct'] + 
+                                    items['tkdidiot']['answers']['incorrect'] +
+                                    items['tkdanalogiverbal']['answers']['correct'] + 
+                                    items['tkdanalogiverbal']['answers']['incorrect'] +
+                                    items['gatb4']['answers']['correct'] + 
+                                    items['gatb4']['answers']['incorrect'] +
+                                    items['adkudag4']['answers']['correct'] + 
+                                    items['adkudag4']['answers']['incorrect'] +
+                                    items['tese']['answers']['correct'] + 
+                                    items['tese']['answers']['incorrect']) / 246 * 100)
+    items['output']['ketelitian_percentage'] = ((items['apm']['answers']['correct'] + 
+                                    items['compre']['answers']['correct'] + 
+                                    items['tkdinfo']['answers']['correct'] + 
+                                    items['tkdidiot']['answers']['correct'] + 
+                                    items['tkdanalogiverbal']['answers']['correct'] + 
+                                    items['gatb4']['answers']['correct'] + 
+                                    items['adkudag4']['answers']['correct'] + 
+                                    items['tese']['answers']['correct']) / 246 * 100)
     return items
 
 
