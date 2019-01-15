@@ -184,7 +184,7 @@ def regulerGrader(dataObject) :
     # Create a new object
     items = dataObject
     items['output'] = {}
-    items['output']['kecepatan'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
+    items['output']['kecepatan20'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
                                     items['apm']['answers']['incorrect'] + 
                                     items['compre']['answers']['correct'] + 
                                     items['compre']['answers']['incorrect'] +
@@ -201,7 +201,7 @@ def regulerGrader(dataObject) :
                                     items['tese']['answers']['correct'] + 
                                     items['tese']['answers']['incorrect']) / 246 * 100)
 
-    items['output']['ketelitian'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
+    items['output']['ketelitian20'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
                                     items['compre']['answers']['correct'] + 
                                     items['tkdinfo']['answers']['correct'] + 
                                     items['tkdidiot']['answers']['correct'] + 
@@ -268,13 +268,13 @@ def regulerGrader(dataObject) :
 
     items['output']['tempo_kerja'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['t'] + 
                                             items['papi']['scores']['scale20']['v'] +
-                                             items['output']['kecepatan'] +
+                                             items['output']['kecepatan20'] +
                                               items['papi']['scores']['scale20']['n'])/4))
     items['output']['ketekunan'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['d'] + 
                                             items['adkudag4']['scores']['scale20'] + 
-                                             items['output']['ketelitian'] +
+                                             items['output']['ketelitian20'] +
                                               items['papi']['scores']['scale20']['c'])/4))
-    items['output']['ketelitian'] = scale.scale('20to6',items['output']['ketelitian'])
+    items['output']['ketelitian'] = scale.scale('20to6',items['output']['ketelitian20'])
     items['output']['daya_tahan_kerja_rutin'] = scale.scale('20to6',round((items['papi']['scores']['scale20']['g'] + 
                                                        items['papi']['scores']['scale20']['v'] +
                                                                              items['papi']['scores']['scale20']['z'] +
