@@ -328,7 +328,7 @@ def regulerGrader(dataObject) :
                                     items['adkudag4']['answers']['correct'] + 
                                     items['adkudag4']['answers']['incorrect'] +
                                     items['tese']['answers']['correct'] + 
-                                    items['tese']['answers']['incorrect']) / 246 * 100)
+                                    items['tese']['answers']['incorrect']) / 246)
     items['output']['ketelitian_percentage'] = ((items['apm']['answers']['correct'] + 
                                     items['compre']['answers']['correct'] + 
                                     items['tkdinfo']['answers']['correct'] + 
@@ -336,7 +336,7 @@ def regulerGrader(dataObject) :
                                     items['tkdanalogiverbal']['answers']['correct'] + 
                                     items['gatb4']['answers']['correct'] + 
                                     items['adkudag4']['answers']['correct'] + 
-                                    items['tese']['answers']['correct']) / 246 * 100)
+                                    items['tese']['answers']['correct']) / 246)
     return items
 
 
