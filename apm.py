@@ -2,7 +2,7 @@ from flask import g
 import scale
 
 def grader(itemResult,totalQ):
-    print('entering APM module')
+    #print('entering APM module')
     if 'apm_total' not in g:
         g.apm_total = 0
 

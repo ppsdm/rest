@@ -16,6 +16,9 @@ from flask import g
 import json
 import logging
 from controller import user_controller
+from controller import interpret_controller
+from collections import Counter
+
 import scale as scale
 
 app = Flask(__name__)
@@ -65,11 +68,14 @@ def getLtiTools(c_id) :
     conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='chamilo_ppsdm_db')
     retval = None
     cur = conn.cursor()
-
+    #print("c_id = ")
+    #print(c_id)
     cur.execute("SELECT * FROM plugin_ims_lti_tool WHERE custom_params ='MAIN' AND c_id = %s LIMIT 1", (c_id))
 
     for row in cur:
         retval = row[0]
+        #print("retval = ")
+        #print(retval)
 
     cur.close()
     conn.close()
@@ -184,12 +190,57 @@ def assessmentResultParser(result,toolId) :
         #"type": mod_name
    # }
 
+def papiParser(dataObject) :
+    items = dataObject
+    papiscores = dataObject['papi']['scores']['raw']
+    for papiscore in papiscores :
+        #print(papiscore + str(papiscores[papiscore]))
+        interpretationres = interpret_controller.getPapi(papiscore + str(papiscores[papiscore]))
+        #print(": " + interpretationres['id'])
+    papi_ids_2 = Counter(g.papi_id_list["2"])
+    papi_id_2_dict = {}
+    for papi_id_2 in papi_ids_2:
+        if papi_ids_2[papi_id_2] == 1:
+            papi_id_2_dict[papi_id_2] = interpret_controller.getPapiInterpretationById(papi_id_2)
 
+    papi_ids_4 = Counter(g.papi_id_list["4"])
+    papi_id_4_dict = {}
+    for papi_id_4 in papi_ids_4:
+        if papi_ids_4[papi_id_4] == 2:
+            papi_id_4_dict[papi_id_4] = interpret_controller.getPapiInterpretationById(papi_id_4)
+
+
+    papi_ids_6 = Counter(g.papi_id_list["6"])
+    papi_id_6_dict = {}
+    for papi_id_6 in papi_ids_6:
+        if papi_ids_6[papi_id_6] == 3:
+            papi_id_6_dict[papi_id_6] = interpret_controller.getPapiInterpretationById(papi_id_6)
+
+    papi_ids_8 = Counter(g.papi_id_list["8"])
+    papi_id_8_dict = {}
+    for papi_id_8 in papi_ids_8:
+        if papi_ids_8[papi_id_8] == 4:
+            papi_id_8_dict[papi_id_8] = interpret_controller.getPapiInterpretationById(papi_id_8)
+
+    papi_ids_10 = Counter(g.papi_id_list["10"])
+    papi_id_10_dict = {}
+    for papi_id_10 in papi_ids_10:
+        if papi_ids_10[papi_id_10] == 5:
+            papi_id_10_dict[papi_id_10] = interpret_controller.getPapiInterpretationById(papi_id_10)
+
+    items['papi']['uraian_2'] = papi_id_2_dict
+    items['papi']['uraian_4'] = papi_id_4_dict
+    items['papi']['uraian_6'] = papi_id_6_dict
+    items['papi']['uraian_8'] = papi_id_8_dict
+    items['papi']['uraian_10'] = papi_id_10_dict
+    papi_list = g.papi_id_list
+    return items
 def regulerGrader(dataObject) :
     # Create a new object
     items = dataObject
     items['output'] = {}
-    items['output']['kecepatan20'] = scale.scale('kecepatanketelitian20',(items['apm']['answers']['correct'] + 
+    items['output']['kecepatan20'] = scale.scale('kecepatanketelitian20',(
+                                    items['apm']['answers']['correct'] + 
                                     items['apm']['answers']['incorrect'] + 
                                     items['compre']['answers']['correct'] + 
                                     items['compre']['answers']['incorrect'] +
@@ -401,6 +452,8 @@ class Reguler(Resource):
         data = {}
         #data["type"] = "testResult"
         tool_id = getLtiTools(c_id)
+        print("tool id = ")
+        print(tool_id)
         result_uri = getResultId(user_id, tool_id)
         delivery_uri = getDeliveryId(result_uri)
 
@@ -413,6 +466,7 @@ class Reguler(Resource):
         # Update data from parsed assessment result
         data.update(assessmentResultParser(r,tool_id))
         data.update(regulerGrader(data))
+        data.update(papiParser(data))
 
         # Serve assessment result
         return jsonify(data = data)
@@ -484,6 +538,18 @@ class UserProfile(Resource):
         logging.info('UserProfile.get(%s)', user_id)
         user = user_controller.getUser(user_id)
         return jsonify(data = user)
+
+@api.route('/getInterpret/<string:tool_name>/<string:score>')
+class Interpret(Resource):
+    def get(self, tool_name,score):
+        # user profile data
+        #logging.info('UserProfile.get(%s)', user_id)
+        res = {}
+        if (tool_name == "papi") :
+            res = interpret_controller.getPapi(score)
+            #print(res['id'])
+        #uraian = user_controller.getUser(user_id)
+        return jsonify(data = res)
 
 if __name__ == '__main__':
     app.config.from_object(settings)
