@@ -19,8 +19,8 @@ def grader(itemResult,totalQ):
         'x' : 0,
         'b' : 0,
         'o' : 0,
-        'z' : 0,
-        'k' : 0,
+        'z' : 9,
+        'k' : 9,
         'w' : 0,
         'c' : 0,
         'l' : 0,
@@ -103,13 +103,19 @@ def grader(itemResult,totalQ):
                     #print('response : ', response)
                     if response is not None :
                         papi_alpha = response.split('_')
-                        g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] + 1
+                        
                         if papi_alpha[0].lower() == 'k':
-                            prescale = scale.scale('papikostik_k', g.papi_score[papi_alpha[0].lower()])
+                            #pass
+                            g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] - 1
+                            #prescale = scale.scale('papikostik_k', g.papi_score[papi_alpha[0].lower()])
                         elif papi_alpha[0].lower() == 'z':
-                            prescale = scale.scale('papikostik_z', g.papi_score[papi_alpha[0].lower()])     
+                            #pass
+                            g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] - 1
+                            #prescale = scale.scale('papikostik_z', g.papi_score[papi_alpha[0].lower()])     
                         else :
-                            prescale = g.papi_score[papi_alpha[0].lower()]
+                            #pass
+                            g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] + 1
+                        prescale = g.papi_score[papi_alpha[0].lower()]
                             #g.papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik20', g.papi_score[papi_alpha[0].lower()])
                         g.papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik20', prescale)
                             #print('papi_score : ' , g.papi_score[papi_alpha[0].lower()])
@@ -132,8 +138,6 @@ def grader(itemResult,totalQ):
     data["scores"]["validity"] = validity
     data["scores"]["validity_message"] = validity_message
     data["answers"] = {}
-    #data["answers"]["correct"] = g.apm_correct
-    #data["answers"]["incorrect"] = g.apm_incorrect
     data["answers"]["empty"] = g.apm_empty
     data["attributes"] = itemGrade
     #print (g.papi_score)

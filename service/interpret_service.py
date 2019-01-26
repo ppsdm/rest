@@ -108,9 +108,9 @@ class InterpretService(object):
 
     cur.close()
     conn.close()
-    print ("row count : " + str(cur.rowcount))
+    #print ("row count : " + str(cur.rowcount))
     for row in cur:
-        print(row['id'])
+        #print(row['id'])
         idx = str(len(row['papi_code'].strip()))
         temp_list[idx].append(row['id'])
         if row['id'] in g.papi_id_list[idx] :

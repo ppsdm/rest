@@ -2,7 +2,7 @@ from flask import g
 import scale
 
 def grader(itemResult,totalQ):
-    #print('entering APM module')
+    print('entering APM module')
     if 'apm_total' not in g:
         g.apm_total = 0
 
@@ -44,6 +44,9 @@ def grader(itemResult,totalQ):
                     itemGrade["candidate_response"] = response
 
     g.apm_incorrect = totalQ - g.apm_correct - g.apm_empty
+    print("correct = " + str(g.apm_correct))
+    print("total Q = " + str(totalQ))
+    print("empty = " + str(g.apm_empty))
     data = {}
     data["type"] = 'apm'
     data["scores"] = {}
