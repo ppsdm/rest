@@ -29,6 +29,7 @@ class UserService(object):
     i = 0
     data = {}
     for row in cur:
+        #print(row)
         if (i == 0):
             data.update({'id': row['id']})
             data.update({'firstname': row['firstname']})
