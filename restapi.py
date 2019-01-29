@@ -417,7 +417,7 @@ class Latest(Resource):
 
         # Retrieve assessment result
         uri = SERVER_URL + GET_LATEST_URI + 'testtaker=' + BASE_URI + testtaker_id + '&delivery=' + BASE_URI + delivery_id
-        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 'admin123'))
+        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 't40@ppsdm'))
 
         # Update data from parsed assessment result
         data.update(assessmentResultParser(r))
