@@ -437,7 +437,7 @@ class Resultfromuri(Resource):
 
         # Retrieve assessment result
         uri = SERVER_URL + GET_RESULT_URI + 'result=' + BASE_URI + result_id + '&delivery=' + BASE_URI + delivery_id
-        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 'admin123'))
+        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 't40@ppsdm'))
         # Update data from parsed assessment result
         data.update(assessmentResultParser(r,tool_id))
 
@@ -462,7 +462,7 @@ class Reguler(Resource):
 
         # Retrieve assessment result
         uri = SERVER_URL + GET_RESULT_URI + 'result=' + BASE_URI + result_id + '&delivery=' + BASE_URI + delivery_id
-        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 'admin123'))
+        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 't40@ppsdm'))
         # Update data from parsed assessment result
         data.update(assessmentResultParser(r,tool_id))
         data.update(regulerGrader(data))
@@ -488,7 +488,7 @@ class Result(Resource):
 
         # Retrieve assessment result
         uri = SERVER_URL + GET_RESULT_URI + 'result=' + BASE_URI + result_id + '&delivery=' + BASE_URI + delivery_id
-        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 'admin123'))
+        r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 't40@ppsdm'))
         # Update data from parsed assessment result
         data.update(assessmentResultParser(r,tool_id))
 
@@ -520,7 +520,7 @@ class Summary(Resource):
             result_uri = row[0].split('#')[1]
             g.reset_object = 1
             uri = SERVER_URL + GET_RESULT_URI + 'result=' + BASE_URI + result_uri + '&delivery=' + BASE_URI + delivery_id
-            r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 'admin123'))
+            r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 't40@ppsdm'))
             data.update(assessmentResultParser(r))
             summary_data[result_uri] = data
 
