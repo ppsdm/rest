@@ -19,8 +19,8 @@ def grader(itemResult,totalQ):
         'x' : 0,
         'b' : 0,
         'o' : 0,
-        'z' : 9,
-        'k' : 9,
+        'z' : 0,
+        'k' : 0,
         'w' : 0,
         'c' : 0,
         'l' : 0,
@@ -106,16 +106,16 @@ def grader(itemResult,totalQ):
                         
                         if papi_alpha[0].lower() == 'k':
                             #pass
-                            g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] - 1
-                            #prescale = scale.scale('papikostik_k', g.papi_score[papi_alpha[0].lower()])
+                            g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] + 1
+                            prescale = scale.scale('papikostik_k', g.papi_score[papi_alpha[0].lower()])
                         elif papi_alpha[0].lower() == 'z':
                             #pass
-                            g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] - 1
-                            #prescale = scale.scale('papikostik_z', g.papi_score[papi_alpha[0].lower()])     
+                            g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] + 1
+                            prescale = scale.scale('papikostik_z', g.papi_score[papi_alpha[0].lower()])     
                         else :
                             #pass
                             g.papi_score[papi_alpha[0].lower()] = g.papi_score[papi_alpha[0].lower()] + 1
-                        prescale = g.papi_score[papi_alpha[0].lower()]
+                            prescale = g.papi_score[papi_alpha[0].lower()]
                             #g.papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik20', g.papi_score[papi_alpha[0].lower()])
                         g.papi_score_scaled[papi_alpha[0].lower()] = scale.scale('papikostik20', prescale)
                             #print('papi_score : ' , g.papi_score[papi_alpha[0].lower()])
