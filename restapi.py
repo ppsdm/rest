@@ -3,7 +3,7 @@ import disc as disc
 import cfit as cfit
 import papi as papi
 import adkudag4 as adkudag4
-import gatb4 as gatb4, tese as tese, tkdinfo as tkdinfo, tkdanalogiverbal as tkdanalogiverbal, tkdidiot as tkdidiot, tpa as tpa
+import gatb4 as gatb4, tese as tese, tkdinfo as tkdinfo, tkdanalogiverbal as tkdanalogiverbal, tkdidiot as tkdidiot, tpa as tpa, form as form
 import compre as compre
 import os.path
 import requests
