@@ -238,6 +238,26 @@ def papiParser(dataObject) :
 def regulerGrader(dataObject) :
     # Create a new object
     items = dataObject
+    
+    nilai_subtest = {}
+
+    nilai_subtest['apm']['answers']['correct'] = 0
+    nilai_subtest['apm']['answers']['incorrect'] = 0 
+    nilai_subtest['compre']['answers']['correct'] = 0
+    nilai_subtest['compre']['answers']['incorrect'] = 0
+    nilai_subtest['tkdinfo']['answers']['correct'] = 0 
+    nilai_subtest['tkdinfo']['answers']['incorrect'] = 0
+    nilai_subtest['tkdidiot']['answers']['correct'] = 0 
+    nilai_subtest['tkdidiot']['answers']['incorrect'] = 0
+    nilai_subtest['tkdanalogiverbal']['answers']['correct'] = 0
+    nilai_subtest['tkdanalogiverbal']['answers']['incorrect'] = 0
+    nilai_subtest['gatb4']['answers']['correct'] = 0 
+    nilai_subtest['gatb4']['answers']['incorrect'] = 0
+    nilai_subtest['adkudag4']['answers']['correct'] = 0 
+    nilai_subtest['adkudag4']['answers']['incorrect'] = 0
+    nilai_subtest['tese']['answers']['correct'] = 0 
+    nilai_subtest['tese']['answers']['incorrect'] = 0
+    
     items['output'] = {}
     items['output']['kecepatan20'] = scale.scale('kecepatanketelitian20',(
                                     items['apm']['answers']['correct'] + 
