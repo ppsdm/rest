@@ -1,5 +1,5 @@
 from flask import g
-import scale
+from ..tool import scale
 import pymysql
 
 def grader(itemResult,totalQ):

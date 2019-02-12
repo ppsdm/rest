@@ -1,5 +1,5 @@
 from flask import g
-import scale
+from ..tool import scale
 
 def grader(itemResult,totalQ):
     print('entering FORM module')
