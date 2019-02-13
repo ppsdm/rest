@@ -1,5 +1,5 @@
 from flask import g
-from ..tool import scale
+from tool import scale
 
 def grader(itemResult,totalQ):
     print('entering APM module')

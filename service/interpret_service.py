@@ -1,6 +1,6 @@
 import pymysql, logging, os
 from dotenv import load_dotenv
-from ..constants.response_model.user import EXTRA_FIELD
+from constants.response_model.user import EXTRA_FIELD
 from flask import g
 from collections import Counter
 """ load dotenv."""

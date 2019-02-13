@@ -1,5 +1,5 @@
 import logging
-from ..service import interpret_service
+from service import interpret_service
 
 class InterpretController(object):
   """Interpret controller."""

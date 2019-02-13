@@ -1,5 +1,5 @@
 import logging
-from ..service import user_service
+from service import user_service
 
 class UserController(object):
   """User controller."""

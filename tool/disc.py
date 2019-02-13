@@ -1,5 +1,5 @@
 from flask import g
-from ..tool import scale
+from tool import scale
 import pymysql
 
 #scaled = scale.scale('pcas-1-c', '7')
