@@ -181,10 +181,10 @@ class Interpret(Resource):
 class Result(Resource):
     def get(self, user_id, c_id):
         res = {}
-        reguler_psikotes_disc = ['4','10']
+        reguler_psikotes_list = ['4','10']
         disc_list = []
         kostick_list = []
-        if c_id in reguler_psikotes:
+        if c_id in reguler_psikotes_list:
             res = reguler.get(self, user_id, c_id)
         return res
 
