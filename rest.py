@@ -25,7 +25,7 @@ from tool import scale as scale
 
 from grader import reguler as reguler
 from grader import disc as disc
-from grader import kostick as kostick
+from grader import papi as papi
 
 app = Flask(__name__)
 api = Api(app)
@@ -183,10 +183,12 @@ class Result(Resource):
     def get(self, user_id, c_id):
         res = {}
         reguler_psikotes_list = ['4','10']
-        disc_list = []
-        kostick_list = []
+        disc_list = ['8']
+        papi_list = ['15']
         if c_id in reguler_psikotes_list:
             res = reguler.get(self, user_id, c_id)
+        if c_id in papi_list:
+            res = papi.get(self, user_id, c_id)
         return res
 
 
