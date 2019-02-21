@@ -100,7 +100,7 @@ def grader(itemResult,totalQ):
             for subelem2 in subelem:
                 for subelem3 in subelem2:
                     response = subelem3.text
-                    #print('response : ', response)
+                    print('response : ', response)
                     if response is not None :
                         papi_alpha = response.split('_')
                         

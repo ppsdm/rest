@@ -189,6 +189,8 @@ class Result(Resource):
             res = reguler.get(self, user_id, c_id)
         if c_id in papi_list:
             res = papi.get(self, user_id, c_id)
+        if c_id in disc_list:
+            res = disc.get(self, user_id, c_id)
         return res
 
 

@@ -32,25 +32,29 @@ def get(self, user_id, c_id):
     #print("grader - apm")
     data = {}
     #data["type"] = "testResult"
-    tool_id = getLtiTools(c_id)
-    print("tool id = ")
-    print(tool_id)
-    result_uri = getResultId(user_id, tool_id)
-    delivery_uri = getDeliveryId(result_uri)
+    tool_ids = getLtiTools(c_id)
+    for tool_id in tool_ids:
+        print("tool id = ")
+        print(tool_id)
+        result_uri = getResultId(user_id, tool_id)
+        if (result_uri is not None) :
+            delivery_uri = getDeliveryId(result_uri)
 
-    result_id = result_uri.replace(os.getenv('BASE_URI_MYSQL'), "")
-    delivery_id = delivery_uri.replace(os.getenv('BASE_URI_MYSQL'),"")
-    
-    # Retrieve assessment result
-    uri = os.getenv('SERVER_URL') + os.getenv('GET_RESULT_URI') + 'result=' + os.getenv('BASE_URI') + result_id + '&delivery=' + os.getenv('BASE_URI') + delivery_id
-    r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 't40@ppsdm'))
-    # Update data from parsed assessment result
-    #print(uri)
-    data.update(assessmentResultParser(r,tool_id))
-    data.update(regulerGrader(data))
-    data.update(papiParser(data))
-    #return r
-    # Serve assessment result
+            result_id = result_uri.replace(os.getenv('BASE_URI_MYSQL'), "")
+            delivery_id = delivery_uri.replace(os.getenv('BASE_URI_MYSQL'),"")
+            
+            # Retrieve assessment result
+            uri = os.getenv('SERVER_URL') + os.getenv('GET_RESULT_URI') + 'result=' + os.getenv('BASE_URI') + result_id + '&delivery=' + os.getenv('BASE_URI') + delivery_id
+            r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 't40@ppsdm'))
+            # Update data from parsed assessment result
+            #print(uri)
+            data.update(assessmentResultParser(r,tool_id))
+            data.update(regulerGrader(data))
+            data.update(papiParser(data))
+            #return r
+            # Serve assessment result
+        
+
     return jsonify(data = data)
 
 
@@ -87,14 +91,19 @@ def getDeliveryId(result_id) :
 
 def getLtiTools(c_id) :
     conn = pymysql.connect(host='db.aws.ppsdm.com', port=3306, user='ppsdm', passwd='ppsdm-mysql', db='chamilo_ppsdm_db')
-    retval = None
+    #retval = None
+    retval = []
     cur = conn.cursor()
     #print("c_id = ")
     #print(c_id)
-    cur.execute("SELECT * FROM plugin_ims_lti_tool WHERE custom_params ='MAIN' AND c_id = %s LIMIT 1", (c_id))
+    cur.execute("SELECT * FROM plugin_ims_lti_tool WHERE custom_params ='MAIN' AND c_id = %s", (c_id))
+    #cur.execute("SELECT * FROM plugin_ims_lti_tool WHERE custom_params ='MAIN' AND c_id = %s LIMIT 1", (c_id))
+    #cur.execute("SELECT * FROM plugin_ims_lti_tool WHERE c_id = %s", (c_id))
 
     for row in cur:
-        retval = row[0]
+        print(row[0])
+        #retval = row[0]
+        retval.append(row[0])
         #print("retval = ")
         #print(retval)
 
