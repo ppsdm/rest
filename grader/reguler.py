@@ -47,7 +47,7 @@ def get(self, user_id, c_id):
             uri = os.getenv('SERVER_URL') + os.getenv('GET_RESULT_URI') + 'result=' + os.getenv('BASE_URI') + result_id + '&delivery=' + os.getenv('BASE_URI') + delivery_id
             r = requests.get(uri, headers={'Accept': 'application/xml'}, auth=('admin', 't40@ppsdm'))
             # Update data from parsed assessment result
-            #print(uri)
+            print(uri)
             data.update(assessmentResultParser(r,tool_id))
             data.update(regulerGrader(data))
             data.update(papiParser(data))
